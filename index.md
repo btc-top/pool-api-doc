@@ -1070,10 +1070,10 @@ request.post(url, {
 
 **日算力信息:**
 
-| 字段   | 类型   | 描述   |
-| ------ | ------ | ------ |
-| time   | string | 日期   |
-| validSpeed  | int    | 算力 |
+| 字段       | 类型   | 描述   |
+| ---------- | ------ | ------ |
+| time       | string | 日期   |
+| validSpeed | int    | 算力   |
 | rejectRate | double | 拒绝率 |
 
 **举例:**
@@ -1117,11 +1117,11 @@ request.post(url, {
 
 **小时算力信息:**
 
-| 字段   | 类型   | 描述       |
-| ------ | ------ | ---------- |
-| time   | string | 时间(小时) |
-| validSpeed  | int    | 算力 |
-| rejectRate | double | 拒绝率 |
+| 字段       | 类型   | 描述       |
+| ---------- | ------ | ---------- |
+| time       | string | 时间(小时) |
+| validSpeed | int    | 算力       |
+| rejectRate | double | 拒绝率     |
 
 **举例:**
 
@@ -1210,10 +1210,10 @@ request.post(url, {
 
 **日算力信息:**
 
-| 字段   | 类型   | 描述   |
-| ------ | ------ | ------ |
-| time   | string | 日期   |
-| validSpeed  | int    | 算力   |
+| 字段       | 类型   | 描述   |
+| ---------- | ------ | ------ |
+| time       | string | 日期   |
+| validSpeed | int    | 算力   |
 | rejectRate | double | 拒绝率 |
 
 **举例:**
@@ -1258,10 +1258,10 @@ request.post(url, {
 
 **小时算力信息:**
 
-| 字段   | 类型   | 描述       |
-| ------ | ------ | ---------- |
-| time   | string | 时间(小时) |
-| validSpeed  | int    | 算力       |
+| 字段       | 类型   | 描述       |
+| ---------- | ------ | ---------- |
+| time       | string | 时间(小时) |
+| validSpeed | int    | 算力       |
 | rejectRate | double | 拒绝率     |
 
 **举例:**
@@ -1277,6 +1277,56 @@ request.post(url, {
       "rejectRate": 0.00123
     },
     {
+      "time": "2020-04-01 01:00:00",
+      "validSpeed": 11234342234231424,
+      "rejectRate": 0.00122
+    }
+  ]
+}
+```
+
+#### 批量获取子账号下所有矿机的小时算力信息
+
+**action:** Speed.GetSubAccountAllWorkersHourlySpeedBulk
+
+**参数:**
+
+| 字段     | 是否必须 | 类型     | 描述         |
+| -------- | -------- | -------- | ------------ |
+| userName | 是       | string   | 用户子账户名 |
+| start    | 是       | datetime | 开始时间     |
+| end      | 是       | datetime | 截止时间     |
+
+**返回值:**
+
+| 字段 | 类型  | 描述         |
+| ---- | ----- | ------------ |
+| data | array | 小时算力信息 |
+
+**小时算力信息:**
+
+| 字段       | 类型   | 描述       |
+| ---------- | ------ | ---------- |
+| worker     | string | 矿机名     |
+| time       | string | 时间(小时) |
+| validSpeed | int    | 算力       |
+| rejectRate | double | 拒绝率     |
+
+**举例:**
+
+```json
+{
+  "code": 0,
+  "message": null,
+  "data": [
+    {
+      "worker": "100x001",
+      "time": "2020-04-01 00:00:00",
+      "validSpeed": 11234342234231434,
+      "rejectSpeed": 0.00123
+    },
+    {
+      "worker": "100x002",
       "time": "2020-04-01 01:00:00",
       "validSpeed": 11234342234231424,
       "rejectRate": 0.00122
@@ -1301,10 +1351,10 @@ request.post(url, {
 
 **日算力信息:**
 
-| 字段   | 类型   | 描述   |
-| ------ | ------ | ------ |
-| time   | string | 日期   |
-| validSpeed  | int    | 算力   |
+| 字段       | 类型   | 描述   |
+| ---------- | ------ | ------ |
+| time       | string | 日期   |
+| validSpeed | int    | 算力   |
 | rejectRate | double | 拒绝率 |
 
 **举例:**
@@ -1344,10 +1394,10 @@ request.post(url, {
 
 **小时算力信息:**
 
-| 字段   | 类型   | 描述       |
-| ------ | ------ | ---------- |
-| time   | string | 时间(小时) |
-| validSpeed  | int    | 算力       |
+| 字段       | 类型   | 描述       |
+| ---------- | ------ | ---------- |
+| time       | string | 时间(小时) |
+| validSpeed | int    | 算力       |
 | rejectRate | double | 拒绝率     |
 
 **举例:**
@@ -1377,9 +1427,9 @@ request.post(url, {
 
 **参数:**
 
-| 字段     | 是否必须 | 类型   | 描述                |
-| -------- | -------- | ------ | ------------------- |
-| coinType | 是       | string | 币种：btc、bch，如果要获取全部请传all |
+| 字段     | 是否必须 | 类型   | 描述                                   |
+| -------- | -------- | ------ | -------------------------------------- |
+| coinType | 是       | string | 币种：btc、bch，如果要获取全部请传 all |
 
 **返回值:**
 
