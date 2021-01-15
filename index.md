@@ -1,3 +1,5 @@
+[TOC]
+
 ## 请求方式
 
 统一使用 HTTP 请求（基于 HTTP1.0/1.1 标准）的 POST 方法。
@@ -1734,20 +1736,30 @@ request.post(url, {
 }
 ```
 
-#### 批量取消矿机所属分组
+#### 获取子账户所属矿机的在线情况
 
-**action:** Worker.UnSetWorkerGroupBulk
+**action:** Worker.GetSubAccountWorkerHourlyActiveNumList
 
 **参数:**
 
 | 字段     | 是否必须 | 类型     | 描述         |
 | -------- | -------- | -------- | ------------ |
 | userName | 是       | string   | 用户子账户名 |
-| workers  | 是       | string[] | 矿机名数组   |
+| start    | 是       | date   | 开始日期     |
+| end      | 是       | date   | 截止日期     |
 
 **返回值:**
 
-请根据执行结果错误码判断操作是否成功。
+| 字段 | 类型  | 描述         |
+| ---- | ----- | ------------ |
+| data | array | 每小时小时矿机在线信息 |
+
+**每小时小时矿机在线信息:**
+
+| 字段       | 类型   | 描述        |
+| --------- | ------ | ---------- |
+| at        | string | 时间(小时)  |
+| workerNum | int    | 在线矿机数量 |
 
 **举例:**
 
@@ -1755,6 +1767,16 @@ request.post(url, {
 {
   "code": 0,
   "message": null,
-  "data": null
+  "data": [
+     {
+        "at": "2020-04-01 00:00:00",
+        "workerNum": 100
+     },
+     {
+        "at": "2020-04-01 01:00:00",
+        "workerNum": 100
+     }
+  ]
 }
-```
+``````
+
