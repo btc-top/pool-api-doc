@@ -1,16 +1,82 @@
-[TOC]
+<!-- vscode-markdown-toc -->
+* 1. [请求方式](#)
+* 2. [安全要求](#-1)
+* 3. [授权机制](#-1)
+	* 3.1. [client 端](#client)
+	* 3.2. [server 端](#server)
+	* 3.3. [举例](#-1)
+* 4. [请求格式](#-1)
+* 5. [签名过程](#-1)
+* 6. [请求代码示例](#-1)
+* 7. [返回格式](#-1)
+* 8. [错误码说明](#-1)
+* 9. [接口定义](#-1)
+	* 9.1. [用户主账户](#-1)
+		* 9.1.1. [创建主账户](#-1)
+		* 9.1.2. [获取账户绑定信息](#-1)
+		* 9.1.3. [修改账户绑定手机号](#-1)
+		* 9.1.4. [修改账户绑定邮箱](#-1)
+		* 9.1.5. [修改账户密码](#-1)
+		* 9.1.6. [检测账户密码](#-1)
+		* 9.1.7. [根据手机号查找用户名](#-1)
+		* 9.1.8. [根据邮箱查找用户名](#-1)
+	* 9.2. [用户子账户](#-1)
+		* 9.2.1. [获取用户账户下所有的子账户名](#-1)
+		* 9.2.2. [批量获取子账户基本信息](#-1)
+		* 9.2.3. [创建子账户](#-1)
+		* 9.2.4. [批量获取子账户的费率信息](#-1)
+		* 9.2.5. [修改子账户费率信息](#-1)
+		* 9.2.6. [获取子账户的收款设置信息](#-1)
+		* 9.2.7. [设置子账户收款设置](#-1)
+		* 9.2.8. [获取子账户的人民币收款设置信息](#-1)
+		* 9.2.9. [设置子账户人民币收款设置](#-1)
+		* 9.2.10. [获取子账户挖矿收益自动兑换人民币设置信息](#-1)
+		* 9.2.11. [设置子账户挖矿收益自动兑换人民币设置信息](#-1)
+		* 9.2.12. [获取子账户观察者链接信息](#-1)
+		* 9.2.13. [添加子账户观察者链接信息](#-1)
+		* 9.2.14. [修改子账户观察者链接信息](#-1)
+		* 9.2.15. [删除子账户观察者链接信息](#-1)
+	* 9.3. [收益](#-1)
+		* 9.3.1. [获取子账户的收益汇总信息](#-1)
+		* 9.3.2. [获取账户全部子账户的收益汇总信息](#-1)
+		* 9.3.3. [获取子账户的出账信息](#-1)
+	* 9.4. [算力](#-1)
+		* 9.4.1. [获取子账户的日算力信息](#-1)
+		* 9.4.2. [获取子账户的小时算力信息](#-1)
+		* 9.4.3. [获取子账户的实时算力信息](#-1)
+		* 9.4.4. [获取矿机的日算力信息](#-1)
+		* 9.4.5. [获取矿机的小时算力信息](#-1)
+		* 9.4.6. [批量获取子账号下所有矿机的小时算力信息](#-1)
+		* 9.4.7. [获取系统的日算力信息(最近 30 天)](#30)
+		* 9.4.8. [获取系统的小时算力信息(最近 24 小时)](#24)
+		* 9.4.9. [获取系统的实时算力信息](#-1)
+	* 9.5. [矿机](#-1)
+		* 9.5.1. [获取用户矿机详细信息](#-1)
+		* 9.5.2. [获取用户矿机汇总信息](#-1)
+		* 9.5.3. [获取用户矿机分组信息](#-1)
+		* 9.5.4. [创建矿机分组](#-1)
+		* 9.5.5. [修改矿机分组](#-1)
+		* 9.5.6. [删除矿机分组](#-1)
+		* 9.5.7. [批量设置矿机所属分组](#-1)
+		* 9.5.8. [获取子账户所属矿机的在线情况](#-1)
 
-## 请求方式
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
+
+##  1. <a name=''></a>请求方式
 
 统一使用 HTTP 请求（基于 HTTP1.0/1.1 标准）的 POST 方法。
 
-## 安全要求
+##  2. <a name='-1'></a>安全要求
 
 如果在公网则请求及响应数据采用 HTTPS 加密传输，内网可以使用 HTTP。
 
-## 授权机制
+##  3. <a name='-1'></a>授权机制
 
-### client 端
+###  3.1. <a name='client'></a>client 端
 
 在 HTTP header 中添加 Authorization 字段，其值为根据颁发的 clientId 和 secretKey 生成的 jwt token 值。
 其中 jwt token 的 playload 格式为：
@@ -21,11 +87,11 @@
 | rnd      | number         | 为了防止重放攻击使用的随机数，不得小于 8 位                                                                 |
 | exp      | unix timestamp | 该 jwt token 的过期时间时间戳，建议比当前时间大 3 到 5 分钟，如果对安全要求高的可以缩小范围，不建议太大了。 |
 
-### server 端
+###  3.2. <a name='server'></a>server 端
 
 验证 client 端发送的 HTTP 请求中 header 里面的 Authorization 字段内容是否为合法授权的 jwt token。
 
-### 举例
+###  3.3. <a name='-1'></a>举例
 
 client 端发送一个请求给 server，并在其 http header 中加上有效的 jwt token：
 
@@ -56,7 +122,7 @@ request.post(url, {
 
 ```
 
-## 请求格式
+##  4. <a name='-1'></a>请求格式
 
 数据采用 JSON 格式，请注意在 HTTP 请求的 header 中设置：`Content-Type: application/json`。
 为了提高安全性，需对请求内容进行数字签名，请求内容格式如下：
@@ -69,7 +135,7 @@ request.post(url, {
 | signNonce | string        | 签名唯一随机数                               |
 | sign      | string        | 请求的签名，签名过程见后面文档               |
 
-## 签名过程
+##  5. <a name='-1'></a>签名过程
 
 1. 生成需要签名的字符串：
    将请求内容按照 `action` `at` `data` `signNonce` 的顺序拼接起来，并在末尾在拼上授权处颁发的`secretSalt`。
@@ -77,7 +143,7 @@ request.post(url, {
 2. 生成签名：
    对需要签名的字符串进行 HMAC-SHA256 签名得到的 hex 编码的字符串。
 
-## 请求代码示例
+##  6. <a name='-1'></a>请求代码示例
 
 ```javascript
 const crypto = require('crypto');
@@ -122,7 +188,7 @@ request.post(url, {
 
 ```
 
-## 返回格式
+##  7. <a name='-1'></a>返回格式
 
 返回内容统一为 JSON 格式，包括的字段如下：
 
@@ -132,7 +198,7 @@ request.post(url, {
 | data    | any    | 接口返回数据内容                                       |
 | message | string | 错误信息                                               |
 
-## 错误码说明
+##  8. <a name='-1'></a>错误码说明
 
 错误码对照表如下：
 
@@ -145,11 +211,11 @@ request.post(url, {
 | 5040 | 权限不足         |
 | 5050 | 系统错误         |
 
-## 接口定义
+##  9. <a name='-1'></a>接口定义
 
-### 用户主账户
+###  9.1. <a name='-1'></a>用户主账户
 
-#### 创建主账户
+####  9.1.1. <a name='-1'></a>创建主账户
 
 **action:** Account.Create
 
@@ -178,7 +244,7 @@ request.post(url, {
 }
 ```
 
-#### 获取账户绑定信息
+####  9.1.2. <a name='-1'></a>获取账户绑定信息
 
 **action:** Account.GetBindInfo
 
@@ -214,7 +280,7 @@ request.post(url, {
 }
 ```
 
-#### 修改账户绑定手机号
+####  9.1.3. <a name='-1'></a>修改账户绑定手机号
 
 **action:** Account.UpdatePhone
 
@@ -239,7 +305,7 @@ request.post(url, {
 }
 ```
 
-#### 修改账户绑定邮箱
+####  9.1.4. <a name='-1'></a>修改账户绑定邮箱
 
 **action:** Account.UpdateMail
 
@@ -264,7 +330,7 @@ request.post(url, {
 }
 ```
 
-#### 修改账户密码
+####  9.1.5. <a name='-1'></a>修改账户密码
 
 **action:** Account.UpdatePassword
 
@@ -289,7 +355,7 @@ request.post(url, {
 }
 ```
 
-#### 检测账户密码
+####  9.1.6. <a name='-1'></a>检测账户密码
 
 **action:** Account.CheckPassword
 
@@ -316,7 +382,7 @@ request.post(url, {
 }
 ```
 
-#### 根据手机号查找用户名
+####  9.1.7. <a name='-1'></a>根据手机号查找用户名
 
 **action:** Account.QueryUserNameByPhone
 
@@ -342,7 +408,7 @@ request.post(url, {
 }
 ```
 
-#### 根据邮箱查找用户名
+####  9.1.8. <a name='-1'></a>根据邮箱查找用户名
 
 **action:** Account.QueryUserNameByMail
 
@@ -368,9 +434,9 @@ request.post(url, {
 }
 ```
 
-### 用户子账户
+###  9.2. <a name='-1'></a>用户子账户
 
-#### 获取用户账户下所有的子账户名
+####  9.2.1. <a name='-1'></a>获取用户账户下所有的子账户名
 
 **action:** SubAccount.GetUserAll
 
@@ -396,7 +462,7 @@ request.post(url, {
 }
 ```
 
-#### 批量获取子账户基本信息
+####  9.2.2. <a name='-1'></a>批量获取子账户基本信息
 
 **action:** SubAccount.BulkGetBasicInfo
 
@@ -447,7 +513,7 @@ request.post(url, {
 }
 ```
 
-#### 创建子账户
+####  9.2.3. <a name='-1'></a>创建子账户
 
 **action:** SubAccount.Create
 
@@ -475,7 +541,7 @@ request.post(url, {
 }
 ```
 
-#### 批量获取子账户的费率信息
+####  9.2.4. <a name='-1'></a>批量获取子账户的费率信息
 
 **action:** SubAccount.BulkGetFeeInfo
 
@@ -532,7 +598,7 @@ request.post(url, {
 }
 ```
 
-#### 修改子账户费率信息
+####  9.2.5. <a name='-1'></a>修改子账户费率信息
 
 **action:** SubAccount.UpdateFeeInfo
 
@@ -564,7 +630,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户的收款设置信息
+####  9.2.6. <a name='-1'></a>获取子账户的收款设置信息
 
 **action:** SubAccount.GetCoinHarvestSetting
 
@@ -603,7 +669,7 @@ request.post(url, {
 }
 ```
 
-#### 设置子账户收款设置
+####  9.2.7. <a name='-1'></a>设置子账户收款设置
 
 **action:** SubAccount.SetCoinHarvestSetting
 
@@ -630,7 +696,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户的人民币收款设置信息
+####  9.2.8. <a name='-1'></a>获取子账户的人民币收款设置信息
 
 **action:** SubAccount.GetMoneyHarvestSetting
 
@@ -686,7 +752,7 @@ request.post(url, {
 }
 ```
 
-#### 设置子账户人民币收款设置
+####  9.2.9. <a name='-1'></a>设置子账户人民币收款设置
 
 **action:** SubAccount.SetMoneyHarvestSetting
 
@@ -717,7 +783,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户挖矿收益自动兑换人民币设置信息
+####  9.2.10. <a name='-1'></a>获取子账户挖矿收益自动兑换人民币设置信息
 
 **action:** SubAccount.GetCoin2MoneySetting
 
@@ -751,7 +817,7 @@ request.post(url, {
 }
 ```
 
-#### 设置子账户挖矿收益自动兑换人民币设置信息
+####  9.2.11. <a name='-1'></a>设置子账户挖矿收益自动兑换人民币设置信息
 
 **action:** SubAccount.SetCoin2MoneySetting
 
@@ -776,7 +842,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户观察者链接信息
+####  9.2.12. <a name='-1'></a>获取子账户观察者链接信息
 
 **action:** SubAccount.GetObserverList
 
@@ -824,7 +890,7 @@ request.post(url, {
 }
 ```
 
-#### 添加子账户观察者链接信息
+####  9.2.13. <a name='-1'></a>添加子账户观察者链接信息
 
 **action:** SubAccount.AddObserverInfo
 
@@ -850,7 +916,7 @@ request.post(url, {
 }
 ```
 
-#### 修改子账户观察者链接信息
+####  9.2.14. <a name='-1'></a>修改子账户观察者链接信息
 
 **action:** SubAccount.UpdateObserverInfo
 
@@ -876,7 +942,7 @@ request.post(url, {
 }
 ```
 
-#### 删除子账户观察者链接信息
+####  9.2.15. <a name='-1'></a>删除子账户观察者链接信息
 
 **action:** SubAccount.DeleteObserverInfo
 
@@ -900,9 +966,9 @@ request.post(url, {
 }
 ```
 
-### 收益
+###  9.3. <a name='-1'></a>收益
 
-#### 获取子账户的收益汇总信息
+####  9.3.1. <a name='-1'></a>获取子账户的收益汇总信息
 
 **action:** Profit.GetSubAccountSummary
 
@@ -953,7 +1019,7 @@ request.post(url, {
 }
 ```
 
-#### 获取账户全部子账户的收益汇总信息
+####  9.3.2. <a name='-1'></a>获取账户全部子账户的收益汇总信息
 
 **action:** Profit.GetAccountSummary
 
@@ -998,7 +1064,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户的出账信息
+####  9.3.3. <a name='-1'></a>获取子账户的出账信息
 
 **action:** Profit.GetByDay
 
@@ -1050,9 +1116,9 @@ request.post(url, {
 }
 ```
 
-### 算力
+###  9.4. <a name='-1'></a>算力
 
-#### 获取子账户的日算力信息
+####  9.4.1. <a name='-1'></a>获取子账户的日算力信息
 
 **action:** Speed.GetSubAccountDailySpeed
 
@@ -1099,7 +1165,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户的小时算力信息
+####  9.4.2. <a name='-1'></a>获取子账户的小时算力信息
 
 **action:** Speed.GetSubAccountHourlySpeed
 
@@ -1146,7 +1212,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户的实时算力信息
+####  9.4.3. <a name='-1'></a>获取子账户的实时算力信息
 
 **action:** Speed.GetSubAccountRealtimeSpeed
 
@@ -1191,7 +1257,7 @@ request.post(url, {
 }
 ```
 
-#### 获取矿机的日算力信息
+####  9.4.4. <a name='-1'></a>获取矿机的日算力信息
 
 **action:** Speed.GetWorkerDailySpeed
 
@@ -1239,7 +1305,7 @@ request.post(url, {
 }
 ```
 
-#### 获取矿机的小时算力信息
+####  9.4.5. <a name='-1'></a>获取矿机的小时算力信息
 
 **action:** Speed.GetWorkerHourlySpeed
 
@@ -1287,7 +1353,7 @@ request.post(url, {
 }
 ```
 
-#### 批量获取子账号下所有矿机的小时算力信息
+####  9.4.6. <a name='-1'></a>批量获取子账号下所有矿机的小时算力信息
 
 **action:** Speed.GetSubAccountAllWorkersHourlySpeedBulk
 
@@ -1337,7 +1403,7 @@ request.post(url, {
 }
 ```
 
-#### 获取系统的日算力信息(最近 30 天)
+####  9.4.7. <a name='30'></a>获取系统的日算力信息(最近 30 天)
 
 **action:** Speed.GetSystemDailySpeed
 
@@ -1380,7 +1446,7 @@ request.post(url, {
 }
 ```
 
-#### 获取系统的小时算力信息(最近 24 小时)
+####  9.4.8. <a name='24'></a>获取系统的小时算力信息(最近 24 小时)
 
 **action:** Speed.GetSystemHourlySpeed
 
@@ -1423,7 +1489,7 @@ request.post(url, {
 }
 ```
 
-#### 获取系统的实时算力信息
+####  9.4.9. <a name='-1'></a>获取系统的实时算力信息
 
 **action:** Speed.GetSystemRealtimeSpeed
 
@@ -1475,9 +1541,9 @@ request.post(url, {
 }
 ```
 
-### 矿机
+###  9.5. <a name='-1'></a>矿机
 
-#### 获取用户矿机详细信息
+####  9.5.1. <a name='-1'></a>获取用户矿机详细信息
 
 **action:** Worker.GetSubAccountWorkerList
 
@@ -1554,7 +1620,7 @@ request.post(url, {
 }
 ```
 
-#### 获取用户矿机汇总信息
+####  9.5.2. <a name='-1'></a>获取用户矿机汇总信息
 
 **action:** Worker.GetSubAccountWorkerSummary
 
@@ -1592,7 +1658,7 @@ request.post(url, {
 }
 ```
 
-#### 获取用户矿机分组信息
+####  9.5.3. <a name='-1'></a>获取用户矿机分组信息
 
 **action:** Worker.GetSubAccountWorkerGroupList
 
@@ -1634,7 +1700,7 @@ request.post(url, {
 }
 ```
 
-#### 创建矿机分组
+####  9.5.4. <a name='-1'></a>创建矿机分组
 
 **action:** Worker.CreateGroup
 
@@ -1659,7 +1725,7 @@ request.post(url, {
 }
 ```
 
-#### 修改矿机分组
+####  9.5.5. <a name='-1'></a>修改矿机分组
 
 **action:** Worker.UpdateGroup
 
@@ -1685,7 +1751,7 @@ request.post(url, {
 }
 ```
 
-#### 删除矿机分组
+####  9.5.6. <a name='-1'></a>删除矿机分组
 
 **action:** Worker.DeleteGroup
 
@@ -1710,7 +1776,7 @@ request.post(url, {
 }
 ```
 
-#### 批量设置矿机所属分组
+####  9.5.7. <a name='-1'></a>批量设置矿机所属分组
 
 **action:** Worker.SetWorkerGroupBulk
 
@@ -1736,7 +1802,7 @@ request.post(url, {
 }
 ```
 
-#### 获取子账户所属矿机的在线情况
+####  9.5.8. <a name='-1'></a>获取子账户所属矿机的在线情况
 
 **action:** Worker.GetSubAccountWorkerHourlyActiveNumList
 
