@@ -1234,6 +1234,7 @@ request.post(url, {
 | speed5m  | object | 5 分钟算力  |
 | speed10m | object | 10 分钟算力 |
 | speed30m | object | 30 分钟算力 |
+| speed24h | object | 24 小时算力 |
 
 **算力格式:**
 
@@ -1251,7 +1252,8 @@ request.post(url, {
   "data": {
     "speed5m": { "validSpeed": 24561271905291252, "rejectRate": 0.007 },
     "speed10m": { "validSpeed": 24388516638335084, "rejectRate": 0.001 },
-    "speed30m": { "validSpeed": 24559043561725624, "rejectRate": 0 }
+    "speed30m": { "validSpeed": 24559043561725624, "rejectRate": 0 },
+    "speed24h": { "validSpeed": 24559042561725624, "rejectRate": 0 }
   }
 }
 ```
