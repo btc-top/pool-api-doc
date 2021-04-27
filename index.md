@@ -1949,7 +1949,7 @@ request.post(url, {
 
 | 字段       | 类型   | 描述        |
 | --------- | ------ | ---------- |
-| day        | string | 日期  |
+| at        | string | 日期  |
 | workerNum | int    | 在线矿机数量 |
 
 **举例:**
@@ -1960,11 +1960,11 @@ request.post(url, {
   "message": null,
   "data": [
      {
-        "day": "2020-04-01",
+        "at": "2020-04-01",
         "workerNum": 100
      },
      {
-        "day": "2020-04-01",
+        "at": "2020-04-01",
         "workerNum": 100
      }
   ]
